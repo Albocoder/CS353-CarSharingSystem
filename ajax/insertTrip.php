@@ -28,25 +28,24 @@
     $cp2_hour = $_POST['ch2_h'];
     $cp2_min = $_POST['ch2_m'];
 
-    //Fails here! Cannot do the insertion. Maybe it needs both userid and trip id. So you need ot add the trip first
-    $sql = "INSERT INTO has_driver(user_id) VALUES('$id') ";
+
+
+    $sql = "SELECT max(trip_id) FROM trip";
     $result = $conn->query($sql);
-    if(!$result)
-         $toprint = array('status' => 'Failure','msg'=>'Could not do the insertion of has_driver');
+    if(!$row = mysqli_fetch_assoc($result)){
+        $toprint = array('status' => 'Failure','msg' => 'Max tripid not selected.');
+        echo json_encode($toprint);
+        die();
+    }
+    $t_id = row['trip_id']+1;
+
+    $sql = "INSERT INTO has_driver(user_id) VALUES('$tid','$id') ";
+    $result = $conn->query($sql);
+    if(!$result){
+        $toprint = array('status' => 'Failure','msg' => 'Insertion in has_driver table failed.');
+    }
     else
     {
-        //ERROR is here! You don't have only 1 trip_id for a driver. They can have more
-        $sql = "SELECT * FROM has_driver WHERE user_id = '$id'";
-        $result = $conn->query($sql);
-
-        if(!$row = mysqli_fetch_assoc($result)){
-             $toprint = array('status' => 'Failure','msg' => 'Cannot insert new trip.');
-             echo json_encode($toprint);
-             die();
-        }
-
-        $t_id = $row['trip_id'];
-
         $sql = "INSERT INTO trip(time_of_departure_h, time_of_departure_m, status, free_seats ) VALUES('$time_of_dept_h', '$time_of_dept_m', 'open', 4) WHERE trip_id = '$t_id'";
         $result = $conn->query($sql);
         if(!$result){
