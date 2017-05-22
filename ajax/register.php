@@ -13,32 +13,32 @@
     $mail = $_POST['mail'];
     $username = $_POST['un'];
     $pass = $_POST['pw'];
-    $role = $_POST['role']==1;
+    $role = $_POST['role'];
+    if($role == 1){
+        $role = 'TRUE';
+    }
+    else{
+        $role = 'FALSE';
+    }
 
-    $sql = "CALL register_user()";
-    $sql = "INSERT INTO user_login(username, email, password) VALUES('$username', '$mail', '$pass')";
+    $sql = "CALL register_user($role,'$mail','$username','$pass',NULL,NULL,0)";
     $result = $conn->query($sql);
+    if(!$result){
+        $toprint = array('status' => 'Failure','msg'=>'Function call failed!');
+        echo json_encode($toprint);
+        die();
+    }
 
-    $sql = "SELECT * FROM user_login WHERE password = '$pass' AND username = '$username'";
+    $sql = "SELECT * FROM credentials_view WHERE password = '$pass' AND username = '$username'";
     $result = $conn->query($sql);
 
     if(!$row = mysqli_fetch_assoc($result)){
-       $toprint = array('status' => 'Failure');
+       $toprint = array('status' => 'Failure','msg'=>'Account was not found in the database!');
     }
     else {
         $id = $row['user_id'];
         $_SESSION['id'] = $id;
-        $sql = "INSERT INTO user(user_id) VALUES('$id')";
-        $result = $conn->query($sql);
-        if($role == 1){
-            $sql = "INSERT INTO passenger VALUES('$id')";
-        }
-        else{
-            $sql = "INSERT INTO driver VALUES('$id')";
-        }
-        $result = $conn->query($sql);
-
-        $toprint = array('status' => 'Success','id'=>$id);
+        $toprint = array('status' => 'Success');
     }
 
     echo json_encode($toprint);

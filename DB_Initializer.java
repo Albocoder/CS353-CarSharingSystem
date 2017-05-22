@@ -428,6 +428,7 @@ public class DB_Initializer {
 					+ "ELSE "
 					+ "INSERT INTO driver VALUES(uid,NULL,NULL,NULL,NULL); "
 					+ "END IF; "
+					+ "COMMIT;"
 					+ "END;");
 			
 			//accept_reservation

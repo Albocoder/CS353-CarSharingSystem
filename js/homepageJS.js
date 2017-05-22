@@ -43,8 +43,8 @@ function register() {
         }
         else {
             if(returneddata.status==="Failure") {
-                alert("Username or Email already exists!");
                 console.log(returneddata);
+                alert("Username or Email already exists!");
             }
             else {
                 window.location.href = 'search.html';

@@ -1,11 +1,12 @@
 $(document).ready(function () {
         $.post( "ajax/getUserData.php",function( returneddata ) {
         returneddata = JSON.parse(returneddata);
-        if(returneddata.status==="Error"){
+        if(returneddata.status=="Error"){
             alert("Error connecting to the database");
         }
         else{
-            if(returneddata.status==="Failure"){
+            if(returneddata.status=="Failure"){
+                //console.log(returneddata);
                 window.location.replace('index.html');
             }
             else{
