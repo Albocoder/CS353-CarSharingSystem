@@ -29,32 +29,31 @@
     $cp2_min = $_POST['ch2_m'];
 
 
-
-    $sql = "SELECT max(trip_id) FROM trip";
-    $result = $conn->query($sql);
-    if(!$row = mysqli_fetch_assoc($result)){
-        $toprint = array('status' => 'Failure','msg' => 'Max tripid not selected.');
-        echo json_encode($toprint);
-        die();
-    }
-    $t_id = row['trip_id']+1;
-
-    $sql = "INSERT INTO has_driver(user_id) VALUES('$tid','$id') ";
+    $sql = "INSERT INTO trip(time_of_departure_h, time_of_departure_m, status, free_seats ) VALUES('$time_of_dept_h', '$time_of_dept_m', 'open', 4)";
     $result = $conn->query($sql);
     if(!$result){
-        $toprint = array('status' => 'Failure','msg' => 'Insertion in has_driver table failed.');
+        $toprint = array('status' => 'Failure','msg' => 'Insertion in trip table failed.');
     }
     else
     {
-        $sql = "INSERT INTO trip(time_of_departure_h, time_of_departure_m, status, free_seats ) VALUES('$time_of_dept_h', '$time_of_dept_m', 'open', 4) WHERE trip_id = '$t_id'";
+        $sql = "SELECT max(trip_id) FROM trip";
+        $result = $conn->query($sql);
+        if(!$row = mysqli_fetch_assoc($result)){
+            $toprint = array('status' => 'Failure','msg' => 'Max tripid not selected.');
+            echo json_encode($toprint);
+            die();
+        }
+        $t_id = row['trip_id'];
+
+        $sql = "INSERT INTO has_driver VALUES('$id','$t_id') ";
         $result = $conn->query($sql);
         if(!$result){
-            $toprint = array('status' => 'Failure','msg'=>'Could not do the insertion on trip');
+            $toprint = array('status' => 'Failure','msg'=>'Could not do the insertion on has_driver','sql'=>$sql);
             echo json_encode($toprint);
             die();
         }
 
-        $sql = "INSERT INTO trip_has(trip_id) VALUES('$t_id')";
+        $sql = "INSERT INTO trip_has(trip_id) VALUES('$t_id',4)";
         $result = $conn->query($sql);
         if(!$result){
             $toprint = array('status' => 'Failure','msg'=>'Could not do the insertion on trip_has');
@@ -62,7 +61,15 @@
             die();
         }
 
+        $sql = "SELECT max(r_id) FROM trip_has";
+        $result = $conn->query($sql);
+        if(!$row = mysqli_fetch_assoc($result)){
+            $toprint = array('status' => 'Failure','msg' => 'Max r_id not selected.');
+            echo json_encode($toprint);
+            die();
+        }
         $r_id = $row['r_id'];
+
         $sql = "INSERT INTO checkpoints(r_id, location_name, location_lat, location_lon, price, ETA_hour, ETA_min) VALUES('$r_id','$cp1_name', '$cp1_loc_lat', '$cp1_loc_lon', '$cp1_price', '$cp1_hour', '$cp1_min' ) ";
         $result = $conn->query($sql);
 

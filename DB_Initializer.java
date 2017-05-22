@@ -161,7 +161,7 @@ public class DB_Initializer {
 			
 			//	RESERVATIONS	
 			stmt.executeUpdate("Create table reservations("
-					+ "	reservation_id 		int,"
+					+ "	reservation_id 		int AUTO_INCREMENT,"
 					+ "	user_id				int,"
 					+ "	enter_checkpoint	int, "
 					+ " exit_checkpoint		int,"
@@ -182,7 +182,7 @@ public class DB_Initializer {
 			
 			//	TRIP	
 			stmt.executeUpdate("Create table trip("
-					+ "	trip_id					int,"
+					+ "	trip_id					int AUTO_INCREMENT,"
 					+ "	time_of_departure_h		int, "
 					+ " time_of_departure_m		int, "
 					+ " status 					varchar(20), "
