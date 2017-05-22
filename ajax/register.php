@@ -13,8 +13,9 @@
     $mail = $_POST['mail'];
     $username = $_POST['un'];
     $pass = $_POST['pw'];
-    $role = $_POST['role'];
+    $role = $_POST['role']==1;
 
+    $sql = "CALL register_user()";
     $sql = "INSERT INTO user_login(username, email, password) VALUES('$username', '$mail', '$pass')";
     $result = $conn->query($sql);
 

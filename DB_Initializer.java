@@ -11,11 +11,12 @@ public class DB_Initializer {
 	public static void main(String[] args)
 	{
 		// TODO Auto-generated method stub
-		String  url="jdbc:mysql://localhost/schoolData" ; 
+		String databaseName = "schoolData";
+		String  url="jdbc:mysql://localhost/"+databaseName ; 
 		Connection conn = null;
 		Statement stmt;
-		String username = "root";
-		String password = "Asdf!234";
+		String username = "dbuser";
+		String password = "dbuser";
 		//ResultSet resSet;
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
@@ -413,22 +414,21 @@ public class DB_Initializer {
 			
 			//register_user
 			stmt.executeUpdate("CREATE PROCEDURE register_user (passenger BOOLEAN, email "
-					+ "VARCHAR(250), username VARCHAR(100), password VARCHAR(30), first "
-					+ "VARCHAR(20), last VARCHAR(20), dob DATE) "
+					+ "VARCHAR(20), username VARCHAR(20), password VARCHAR(20), first "
+					+ "VARCHAR(20), last VARCHAR(20), dob INT) "
 					+ "BEGIN "
 					+ "DECLARE uid int; "
 					+ "START TRANSACTION; "
 					+ "SELECT AUTO_INCREMENT INTO uid FROM INFORMATION_SCHEMA.TABLES "
-					+ "WHERE TABLE_SCHEMA = 'DBNAME' AND TABLE_NAME = 'user_login'; "
+					+ "WHERE TABLE_SCHEMA = '"+databaseName+"' AND TABLE_NAME = 'user_login'; "
 					+ "INSERT INTO user_login VALUES (uid,username,email,password); "
-					+ "END; "
-					+ "INSERT INTO user VALUES(uid,first,last,NULL,' ',NULL,dob); "
-					+ "IF (passenger) "
+					+ "INSERT INTO user VALUES(uid,first,last,NULL,NULL,NULL,dob); "
+					+ "IF (passenger) THEN "
 					+ "INSERT INTO passenger VALUES(uid); "
 					+ "ELSE "
 					+ "INSERT INTO driver VALUES(uid,NULL,NULL,NULL,NULL); "
 					+ "END IF; "
-					+ "END; ");
+					+ "END;");
 			
 			//accept_reservation
 			stmt.executeUpdate("CREATE PROCEDURE accept_reservation (res_id INT) "
