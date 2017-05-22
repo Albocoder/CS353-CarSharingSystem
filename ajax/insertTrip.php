@@ -43,7 +43,7 @@
             echo json_encode($toprint);
             die();
         }
-        $t_id = row['trip_id'];
+        $t_id = $row['trip_id'];
 
         $sql = "INSERT INTO has_driver VALUES('$id','$t_id') ";
         $result = $conn->query($sql);
