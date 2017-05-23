@@ -36,7 +36,7 @@
     }
     else
     {
-        $sql = "SELECT max(trip_id) FROM trip";
+        $sql = "SELECT max(trip_id) as trip_id FROM trip";
         $result = $conn->query($sql);
         if(!$row = mysqli_fetch_assoc($result)){
             $toprint = array('status' => 'Failure','msg' => 'Max tripid not selected.');
@@ -61,7 +61,7 @@
             echo json_encode($toprint);
             die();
         }
-        $sql = "SELECT max(r_id) FROM route";
+        $sql = "SELECT max(r_id) as r_id FROM route";
         $result = $conn->query($sql);
         if(!$row = mysqli_fetch_assoc($result)){
             $toprint = array('status' => 'Failure','msg' => 'Max r_id not selected.');
