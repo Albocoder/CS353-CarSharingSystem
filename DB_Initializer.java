@@ -226,8 +226,8 @@ public class DB_Initializer {
 			
 			//	TRIP_HAS	
 			stmt.executeUpdate("Create table trip_has("
-					+ "	r_id				int UNIQUE AUTO_INCREMENT, "
-					+ " trip_id 			int UNIQUE, "
+					+ "	r_id				int, "
+					+ " trip_id 			int, "
 					+ " free_seats			int, "
 					+ "	primary key(r_id, trip_id ),"
 					+ "	foreign key(r_id)      references route(r_id),"
