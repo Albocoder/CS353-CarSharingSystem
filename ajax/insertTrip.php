@@ -52,16 +52,16 @@
             echo json_encode($toprint);
             die();
         }
-
-        $sql = "INSERT INTO trip_has(trip_id) VALUES('$t_id',4)";
+        $sql = "INSERT INTO route VALUES()";
         $result = $conn->query($sql);
+        
+        
         if(!$result){
             $toprint = array('status' => 'Failure','msg'=>'Could not do the insertion on trip_has');
             echo json_encode($toprint);
             die();
         }
-
-        $sql = "SELECT max(r_id) FROM trip_has";
+        $sql = "SELECT max(r_id) FROM route";
         $result = $conn->query($sql);
         if(!$row = mysqli_fetch_assoc($result)){
             $toprint = array('status' => 'Failure','msg' => 'Max r_id not selected.');
@@ -69,6 +69,10 @@
             die();
         }
         $r_id = $row['r_id'];
+        
+        $sql = "INSERT INTO trip_has(r_id, trip_id, free_seats) VALUES('$r_id','$t_id',4)";
+        $result = $conn->query($sql);
+        
 
         $sql = "INSERT INTO checkpoints(r_id, location_name, location_lat, location_lon, price, ETA_hour, ETA_min) VALUES('$r_id','$cp1_name', '$cp1_loc_lat', '$cp1_loc_lon', '$cp1_price', '$cp1_hour', '$cp1_min' ) ";
         $result = $conn->query($sql);
