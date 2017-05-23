@@ -143,7 +143,7 @@ public class DB_Initializer {
 
 			//	ROUTE
 			stmt.executeUpdate("Create table route("
-					+ "	r_id		int,"
+					+ "	r_id		int AUTO_INCREMENT,"
 					+ "	primary key(r_id) )");
 
 			//	CHECKPOINT	
@@ -235,8 +235,8 @@ public class DB_Initializer {
 			
 			//	HAS_DRIVER
 			stmt.executeUpdate("Create table has_driver("
-					+ "	user_id				int UNIQUE, "
-					+ " trip_id 			int AUTO_INCREMENT, "
+					+ "	user_id				int , "
+					+ " trip_id 			int , "
 					+ "	primary key(user_id, trip_id ),"
 					+ "	foreign key(user_id) references driver(user_id),"
 					+ " foreign key(trip_id) references trip(trip_id))ENGINE=INNODB");
