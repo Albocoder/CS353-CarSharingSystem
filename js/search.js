@@ -51,10 +51,14 @@ function addTrips(jsonData){
     for (i = 0; i < size; i++){
         var formattedhour = ("0" + jsonData[i].dep_h).slice(-2);
         var formattedminute = ("0" + jsonData[i].dep_m).slice(-2);
+        var price = (jsonData[i].endPrice-jsonData[i].startPrice);
+
+        if( price < 0 )
+            continue;
         html += "<tr><td>" + jsonData[i].startName +"</td>" +
             "<td>"+jsonData[i].endName+"</td>" +
             "<td>"+jsonData[i].driverName+" "+jsonData[i].driverSname+"</td>" +
-            "<td>"+(jsonData[i].endPrice-jsonData[i].startPrice)+"</td>" +
+            "<td>"+price+"</td>" +
             "<td>"+formattedhour+"<b> : </b>"+formattedminute+"</td>"+
             "</tr>";
     }
